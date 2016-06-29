@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+  <link rel="stylesheet" href="main.css">
+
+  <script src="controller.js"></script>
+</head>
+
+<body>
+
+<div ng-app="spelloff" ng-controller="myCtrl">
+  <div class="main-container">
+    <h1>{{targetWord}}</h1>
+    <div class="score">
+      <h3>Score: <span ng-style="{'color': scoreColor}">{{solutions.length}}</span></h3>
+    </div>
+    <ul>
+      <li ng-repeat="x in solutions">{{x}}</li>
+    </ul>
+    <input class="main-entry" ng-keypress="attemptWord($event)" ng-model="attemptedWord">
+  </div>
+  <p class="error">{{errorText}}</p>
+</div>
+
+</body>
+</html>
