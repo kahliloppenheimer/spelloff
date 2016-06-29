@@ -12,20 +12,13 @@ app.controller("myCtrl", function($scope) {
         return;
       }
       $scope.errorText = "";
-      if ($scope.solutions.indexOf($scope.attemptedWord) > -1) {
+      if (!$scope.attemptedWord) {
+          $scope.errorText = "Please enter a word!";
+      } else if ($scope.solutions.indexOf($scope.attemptedWord) > -1) {
         $scope.errorText = $scope.attemptedWord + " has already been attemped!";
-        flashScore('red');
       } else {
         $scope.solutions.push($scope.attemptedWord);
-        flashScore('green');
       }
-    }
-
-    function flashScore(color) {
-        $scope.scoreColor = color;
-        setTimeout(function() {
-            $scope.scoreColor = DEFAULT_SCORE_COLOR;
-        }, 200);
     }
 
 });
