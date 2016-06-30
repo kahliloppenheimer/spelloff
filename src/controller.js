@@ -17,6 +17,8 @@ app.controller("myCtrl", function($scope) {
       $scope.errorText = "Please enter a word!";
     } else if ($scope.solutions.indexOf(attempt) > -1) {
       $scope.errorText = attempt + " has already been attemped!";
+    } else if (!isCorrectSolution($scope.targetWord, attempt)) {
+      $scope.errorText = attempt + ' cannot be spelled with the letters of ' + $scope.targetWord;
     } else if (!spellChecker.check(attempt)) {
       $scope.errorText = attempt + ' is not a word in the english dictionary!';
     } else {
