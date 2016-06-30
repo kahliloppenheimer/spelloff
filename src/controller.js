@@ -31,9 +31,20 @@ app.controller("myCtrl", function($scope) {
 
 function loadSpellChecker() {
   // return new Typo('en_US', 'typo/dictionaries/en_US/en_US.aff', 'typo/dictionaries/en_US/en_US.dic');
-  $.get('typo/dictionaries/en_US/en_US.aff', function (affData) {
-    $.get('typo/dictionaries/en_US/en_US.dic', function (wordsData) {
-      spellChecker = new Typo("en_US", affData, wordsData);
-    });
-  });
+  if (localStorage) {
+    if (localStorage.affData && localStorage.wordsData) {
+      console.log("hit cache!");
+      spellChecker = new Typo("en_US", localStorage.affData, localStorage.wordsData);
+    } else {
+      $.get('typo/dictionaries/en_US/en_US.aff', function (affData) {
+        $.get('typo/dictionaries/en_US/en_US.dic', function (wordsData) {
+          console.log("missed cache!");
+          localStorage.affData = affData;
+          localStorage.wordsData = wordsData;
+          spellChecker = new Typo("en_US", localStorage.affData, localStorage.wordsData);
+        });
+      });
+    }
+  }
+
 }
