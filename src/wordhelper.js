@@ -1,6 +1,8 @@
 // Returns true iff attempt can be spelled from the letters of target
-function isCorrectSolution(attempt, target) {
-
+function isCorrectSolution(target, attempt) {
+  var attemptCount = countLetters(attempt);
+  var targetCount = countLetters(target);
+  return isContainedBy(targetCount, attemptCount);
 }
 
 // Returns a mapping of letters to frequency at which they appear in the word
@@ -19,6 +21,22 @@ function countLetters(word) {
       }
   }
   return letters;
+}
+
+// Returns true iff for every key in countB, the count associated with that key
+// is less than or equal to the count for the same key in countA
+function isContainedBy(countA, countB) {
+  for (var letter in countB) {
+    if (countB.hasOwnProperty(letter)) {
+      if (!countA.hasOwnProperty(letter)) {
+        return false;
+      }
+      if (countA[letter] < countB[letter]) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 // Strips a word of all non-alphabetic text and lower-cases it

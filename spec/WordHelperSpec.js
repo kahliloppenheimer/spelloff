@@ -52,6 +52,41 @@ describe("Word Helper", function() {
       expect(countLetters(str)).toEqual({});
     });
   });
+
+  describe ('is correct solution', function () {
+    it("should correctly identify trivial", function() {
+      expect(isCorrectSolution(null, null)).toBe(true);
+      expect(isCorrectSolution('', null)).toBe(true);
+      expect(isCorrectSolution(null, '')).toBe(true);
+      expect(isCorrectSolution('', '')).toBe(true);
+    });
+
+    it("should correctly identify handpicked examples", function() {
+      expect(isCorrectSolution('hello', 'h')).toBe(true);
+      expect(isCorrectSolution('hello', 'he')).toBe(true);
+      expect(isCorrectSolution('hello', 'hel')).toBe(true);
+      expect(isCorrectSolution('hello', 'hell')).toBe(true);
+      expect(isCorrectSolution('hello', 'hello')).toBe(true);
+      expect(isCorrectSolution('hello', 'o')).toBe(true);
+      expect(isCorrectSolution('hello', 'ol')).toBe(true);
+      expect(isCorrectSolution('hello', 'oll')).toBe(true);
+      expect(isCorrectSolution('hello', 'olle')).toBe(true);
+      expect(isCorrectSolution('hello', 'olleh')).toBe(true);
+      expect(isCorrectSolution('hello ', 'olleh')).toBe(true);
+      expect(isCorrectSolution(' hello', 'olleh')).toBe(true);
+      expect(isCorrectSolution(' hello', ' loleh')).toBe(true);
+      expect(isCorrectSolution('\nhello', ' loleh')).toBe(true);
+    });
+
+    it("should fail on wrongly picked examples", function() {
+      expect(isCorrectSolution('hello', 'a')).toBe(false);
+      expect(isCorrectSolution('hello', 'ahello')).toBe(false);
+      expect(isCorrectSolution('hell', 'hello')).toBe(false);
+      expect(isCorrectSolution('hell', 'ello')).toBe(false);
+      expect(isCorrectSolution('ello', 'hell')).toBe(false);
+      expect(isCorrectSolution('hello', 'helllo')).toBe(false);
+    });
+  });
 });
 
 // Returns a random integer between min (included) and max (excluded)
