@@ -18,12 +18,13 @@ app.controller("myCtrl", function($scope, $http) {
 
   $scope.attemptWord = function(keyEvent) {
     if (!isEnterKey(keyEvent)) return;
+    $scope.errorText = '';
 
     socket.emit('attempt-word', {
       name: $scope.name,
       attempt: $scope.attemptedWord
     });
-    $scope.errorText = '';
+
     $scope.attemptedWord = '';
   }
 

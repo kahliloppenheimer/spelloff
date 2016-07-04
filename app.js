@@ -77,6 +77,8 @@ server.listen(port, function() {
 function isInvalid(name, attempt, target, solutions) {
   if (!name) {
     return "Please type in your name!";
+  } else if (name.length < 3 || name.length > 16) {
+    return 'Name must be between 3 and 16 characters!';
   }
 
   if (!attempt) {
