@@ -1,37 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-<head>
-  <title>Spelloff</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="main.css">
+  <head>
+    <title>Spelloff</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="src/controller.js"></script>
-</head>
+    <link rel="stylesheet" href="main.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="src/controller.js"></script>
+  </head>
+
   <body>
 
     <div ng-app="spelloff" ng-controller="myCtrl">
-      <div class="main-container">
-        <div class="name">
-          <h4><input placeholder="your name" ng-model="name"></h4>
+      <div class="main-container container-fluid">
+        <div class="row">
+          <div class="col-xs-6 col-md-4">
+            <div class="name">
+              <h4><input placeholder="your name" ng-model="name"></h4>
+            </div>
+          </div>
+          <div class="col-xs-6 col-md-4 col-md-push-4">
+            <div class="score">
+              <ul>
+                <li ng-repeat="(key, value) in scores">
+                  {{key}}: {{value}}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4 col-md-pull-4 target">
+            <h1>{{target}}</h1>
+          </div>
         </div>
-        <h1>{{target}}</h1>
-        <div class="score">
-          <ul>
-            <li ng-repeat="(key, value) in scores">
-              {{key}}: {{value}}
-            </li>
-          </ul>
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4 main-entry-container">
+            <input class="main-entry" ng-keypress="attemptWord($event)" ng-model="attemptedWord" autofocus>
+          </div>
         </div>
-        <ul>
-          <li ng-repeat="x in solutions">{{x}}</li>
-        </ul>
-        <input class="main-entry" ng-keypress="attemptWord($event)" ng-model="attemptedWord" autofocus>
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4 solutions">
+            <ul>
+              <li ng-repeat="x in solutions">{{x}}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row last-row">
+          <div class="col-md-4 col-md-offset-4">
+            <p class="error">{{errorText}}</p>
+          </div>
+        </div>
       </div>
-      <p class="error">{{errorText}}</p>
     </div>
 
   </body>

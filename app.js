@@ -13,7 +13,7 @@ var solutions = [];
 var scores = {};
 
 // Number of seconds between word shuffling
-var WORD_SHUFFLE_TIME = 30;
+var WORD_SHUFFLE_TIME = 60;
 
 // Update word and announce winner
 setInterval(function() {
@@ -46,7 +46,7 @@ io.on('connection', function (socket) {
     var err = isInvalid(name, attempt, target, solutions);
     var attemptWordErr = {error: err};
     if (!err) {
-      solutions.push(name + ": " + attempt);
+      solutions.unshift(name + ": " + attempt);
       var points = score(attempt, target);
       scores[name] = scores[name] ? scores[name] + points : points;
       io.emit('update-game', getGameState());
