@@ -51,7 +51,7 @@ io.on('connection', function (socket) {
 
 });
 
-var port = 3000;
+var port = process.env.port || 3000;
 server.listen(port, function() {
   console.log("Spelloff started listening on port " + port);
 });
