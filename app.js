@@ -6,10 +6,23 @@ var path = require('path');
 var Typo = require('typo-js');
 var spellChecker = new Typo('en_US');
 var wordHelper = require('./lib/wordhelper.js');
+var randomWords = require('random-words');
 
-var target = 'Magazine';
+var target = randomWords();
 var solutions = [];
 var scores = {};
+
+// Number of seconds between word shuffling
+var WORD_SHUFFLE_TIME = 30;
+
+// Update word and announce winner
+setInterval(function() {
+  console.log("RESETTING");
+  target = randomWords();
+  solutions = [];
+  scores = {};
+  io.emit('update-game', getGameState());
+}, 1000 * WORD_SHUFFLE_TIME);
 
 app.use(express.static(__dirname + '/public'));
 
@@ -21,14 +34,10 @@ io.on('connection', function (socket) {
 
   socket.on('start-game', function(data) {
     var startGameRes = {
-      targetWord: 'Magazine',
-    }
-    var updateGameRes = {
-      solutions: solutions,
-      scores: scores
+      target: target,
     }
     socket.emit('start-game-res', startGameRes);
-    socket.emit('update-game', updateGameRes);
+    socket.emit('update-game', getGameState());
   });
 
   socket.on('attempt-word', function(data) {
@@ -39,17 +48,21 @@ io.on('connection', function (socket) {
     if (!err) {
       solutions.push(name + ": " + attempt);
       scores[name] = scores[name] ? scores[name] + 1 : 1;
-      var state = {
-        solutions: solutions,
-        scores: scores
-      };
-      io.emit('update-game', state);
+      io.emit('update-game', getGameState());
     } else {
       socket.emit('attempt-word-err', attemptWordErr);
     }
   });
 
 });
+
+function getGameState() {
+  return {
+    target: target,
+    solutions: solutions,
+    scores: scores
+  };
+}
 
 var port = process.env.PORT || 3000;
 server.listen(port, function() {

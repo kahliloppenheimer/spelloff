@@ -3,19 +3,16 @@ var socket = io.connect();
 
 app.controller("myCtrl", function($scope, $http) {
   // Initiate start-game and load started-game-state
-  console.log("initiating start-game");
   socket.emit('start-game');
   socket.on('start-game-res', function (data) {
-    console.log('receiving start-game');
-    $scope.targetWord = data.targetWord;
+    $scope.target = data.target;
     $scope.$apply();
   });
 
-
   socket.on('update-game', function(data) {
-    console.log('received update-game');
     $scope.solutions = data.solutions;
     $scope.scores = data.scores;
+    $scope.target = data.target;
     $scope.$apply();
   });
 
@@ -34,8 +31,6 @@ app.controller("myCtrl", function($scope, $http) {
     $scope.errorText = data.error;
     $scope.$apply();
   });
-
-
 });
 
 // Returns true iff the keyEvent corresponds to the enter key
