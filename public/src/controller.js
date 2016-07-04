@@ -6,6 +6,7 @@ app.controller("myCtrl", function($scope, $http) {
   console.log("initiating start-game");
   socket.emit('start-game');
   socket.on('start-game-res', function (data) {
+    console.log('receiving start-game');
     $scope.targetWord = data.targetWord;
     $scope.$apply();
   });
