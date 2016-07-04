@@ -11,22 +11,21 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="src/controller.js"></script>
 </head>
+  <body>
 
-<body>
-
-<div ng-app="spelloff" ng-controller="myCtrl">
-  <div class="main-container">
-    <h1>{{targetWord}}</h1>
-    <div class="score">
-      <h3>Score: <span ng-style="{'color': scoreColor}">{{solutions ? solutions.length : 0}}</span></h3>
+    <div ng-app="spelloff" ng-controller="myCtrl">
+      <div class="main-container">
+        <h1>{{targetWord}}</h1>
+        <div class="score">
+          <h3>Score: <span ng-style="{'color': scoreColor}">{{solutions ? solutions.length : 0}}</span></h3>
+        </div>
+        <ul>
+          <li ng-repeat="x in solutions">{{x}}</li>
+        </ul>
+        <input class="main-entry" ng-keypress="attemptWord($event)" ng-model="attemptedWord" autofocus>
+      </div>
+      <p class="error">{{errorText}}</p>
     </div>
-    <ul>
-      <li ng-repeat="x in solutions">{{x}}</li>
-    </ul>
-    <input class="main-entry" ng-keypress="attemptWord($event)" ng-model="attemptedWord" autofocus>
-  </div>
-  <p class="error">{{errorText}}</p>
-</div>
 
-</body>
+  </body>
 </html>
