@@ -64,7 +64,7 @@ function isInvalid(name, attempt, target, solutions) {
 
   if (!attempt) {
     return "Please enter a word!";
-  } else if (solutions.indexOf(attempt) > -1) {
+  } else if (solutions.map(function(word) { return word.split(' ')[1] }).indexOf(attempt) > -1) {
     return attempt + " has already been attemped!";
   } else if (!wordHelper.isCorrectSolution(target, attempt)) {
     return attempt + ' cannot be spelled with the letters of ' + target;
