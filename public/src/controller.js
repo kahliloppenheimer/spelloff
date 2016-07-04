@@ -6,14 +6,16 @@ app.controller("myCtrl", function($scope, $http) {
   socket.emit('start-game');
   socket.on('start-game-res', function (data) {
     $scope.targetWord = data.targetWord;
-    $scope.solutions = data.solutions;
     $scope.$apply();
   });
 
   $scope.attemptWord = function(keyEvent) {
     if (!isEnterKey(keyEvent)) return;
 
-    socket.emit('attempt-word', { attempt: $scope.attemptedWord });
+    socket.emit('attempt-word', {
+      name: $scope.name,
+      attempt: $scope.attemptedWord
+    });
     $scope.errorText = '';
     $scope.attemptedWord = '';
 
@@ -22,8 +24,9 @@ app.controller("myCtrl", function($scope, $http) {
       $scope.$apply();
     });
 
-    socket.on('update-solutions', function(data) {
+    socket.on('update-game', function(data) {
       $scope.solutions = data.solutions;
+      $scope.scores = data.scores;
       $scope.$apply();
     });
   }

@@ -19,6 +19,15 @@
     padding-right: 30px;
 }
 
+.name {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: left;
+    padding-left: 30px;
+    padding-top: 15px;
+}
+
 .error {
     color: red;
     text-align: center;

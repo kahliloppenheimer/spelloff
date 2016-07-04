@@ -9,6 +9,7 @@ var wordHelper = require('./lib/wordhelper.js');
 
 var target = 'Magazine';
 var solutions = [];
+var scores = {};
 
 app.use(express.static(__dirname + '/public'));
 
@@ -19,26 +20,35 @@ app.get('/', function(req, res) {
 io.on('connection', function (socket) {
 
   socket.on('start-game', function(data) {
-    var res = {
+    var startGameRes = {
       targetWord: 'Magazine',
-      solutions: solutions
     }
-    socket.emit('start-game-res', res);
+    var updateGameRes = {
+      solutions: solutions,
+      scores: scores
+    }
+    socket.emit('start-game-res', startGameRes);
+    socket.emit('update-game', updateGameRes);
   });
 
   socket.on('attempt-word', function(data) {
     var attempt = data.attempt;
-    var err = isInvalid(attempt, target, solutions);
-    var newSolutions = {solutions: solutions};
+    var name = data.name;
+    var err = isInvalid(name, attempt, target, solutions);
     var attemptWordErr = {error: err};
     if (!err) {
-      solutions.push(attempt);
-      io.emit('update-solutions', newSolutions);
+      solutions.push(name + ": " + attempt);
+      scores[name] = scores[name] ? scores[name] + 1 : 1;
+      var state = {
+        solutions: solutions,
+        scores: scores
+      };
+      io.emit('update-game', state);
     } else {
       socket.emit('attempt-word-err', attemptWordErr);
     }
   });
-  
+
 });
 
 var port = 3000;
@@ -47,7 +57,11 @@ server.listen(port, function() {
 });
 
 // Returns errorText if not valid, empty error text if good
-function isInvalid(attempt, target, solutions) {
+function isInvalid(name, attempt, target, solutions) {
+  if (!name) {
+    return "Please type in your name!";
+  }
+
   if (!attempt) {
     return "Please enter a word!";
   } else if (solutions.indexOf(attempt) > -1) {
