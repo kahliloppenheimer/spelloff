@@ -47,13 +47,13 @@ io.on('connection', function (socket) {
     var attemptWordErr = {error: err};
     if (!err) {
       solutions.push(name + ": " + attempt);
-      scores[name] = scores[name] ? scores[name] + 1 : 1;
+      var points = score(attempt, target);
+      scores[name] = scores[name] ? scores[name] + points : points;
       io.emit('update-game', getGameState());
     } else {
       socket.emit('attempt-word-err', attemptWordErr);
     }
   });
-
 });
 
 function getGameState() {
@@ -62,6 +62,10 @@ function getGameState() {
     solutions: solutions,
     scores: scores
   };
+}
+
+function score(attempt, target) {
+  return attempt.length;
 }
 
 var port = process.env.PORT || 3000;
