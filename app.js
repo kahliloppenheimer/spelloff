@@ -38,6 +38,7 @@ io.on('connection', function (socket) {
       socket.emit('attempt-word-err', attemptWordErr);
     }
   });
+  
 });
 
 var port = 3000;
