@@ -3,6 +3,7 @@ var socket = io.connect();
 
 app.controller("myCtrl", function($scope, $http) {
   // Initiate start-game and load started-game-state
+  console.log("initiating start-game");
   socket.emit('start-game');
   socket.on('start-game-res', function (data) {
     $scope.targetWord = data.targetWord;
@@ -25,6 +26,7 @@ app.controller("myCtrl", function($scope, $http) {
     });
 
     socket.on('update-game', function(data) {
+      console.log('received update-game');
       $scope.solutions = data.solutions;
       $scope.scores = data.scores;
       $scope.$apply();
