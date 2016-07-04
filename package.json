@@ -1,0 +1,32 @@
+{
+  "name": "spelloff-backend",
+  "version": "1.0.0",
+  "description": "Backend for spelloff word-game",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "socket.io": "^1.4.8",
+    "typo-js": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kahliloppenheimer/spelloff.git"
+  },
+  "keywords": [
+    "backend",
+    "web",
+    "game",
+    "spelling"
+  ],
+  "author": "Kahlil Oppenheimer <kahliloppenheimer@gmail.com> (http://kahlil.me)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kahliloppenheimer/spelloff/issues"
+  },
+  "homepage": "https://github.com/kahliloppenheimer/spelloff#readme"
+}

@@ -8,8 +8,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  <script src="typo/typo.js"></script>
-  <script src="src/wordhelper.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="src/controller.js"></script>
 </head>
 
@@ -19,7 +18,7 @@
   <div class="main-container">
     <h1>{{targetWord}}</h1>
     <div class="score">
-      <h3>Score: <span ng-style="{'color': scoreColor}">{{solutions.length}}</span></h3>
+      <h3>Score: <span ng-style="{'color': scoreColor}">{{solutions ? solutions.length : 0}}</span></h3>
     </div>
     <ul>
       <li ng-repeat="x in solutions">{{x}}</li>
