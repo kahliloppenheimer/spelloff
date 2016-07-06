@@ -2,7 +2,6 @@
     border: 2px solid blue;
 }
 
-
 .name {
     padding-left: 15px;
     padding-top: 10px;
@@ -21,6 +20,10 @@
     text-align: center;
 }
 
+th {
+  text-align: center;
+}
+
 .main-entry {
     border: 2px solid blue;
 }
@@ -34,7 +37,6 @@
     padding-right: 15px;
     text-align: right;
 }
-
 
 ul {
     padding: 0;

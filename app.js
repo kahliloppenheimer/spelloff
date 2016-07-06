@@ -41,7 +41,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('attempt-word', function(data) {
-    var attempt = data.attempt;
+    var attempt = wordHelper.keepOnlyLowerAlpha(data.attempt);
     var name = data.name;
     var err = isInvalid(name, attempt, target, solutions);
     var attemptWordErr = {error: err};
@@ -75,7 +75,6 @@ server.listen(port, function() {
 
 // Returns errorText if not valid, empty error text if good
 function isInvalid(name, attempt, target, solutions) {
-  attempt = wordHelper.keepOnlyLowerAlpha(attempt);
   if (!name) {
     return "Please type in your name!";
   } else if (name.length < 3 || name.length > 16) {

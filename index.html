@@ -43,10 +43,17 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4 col-md-offset-4 solutions">
-            <ul>
-              <li ng-repeat="x in solutions">{{x.name}}: {{x.word}}</li>
-            </ul>
+          <div class="col-md-4 col-md-offset-4">
+            <table class="table solutions">
+              <tr>
+                <th>Name</th>
+                <th>Word</th>
+              </tr>
+              <tr ng-repeat="x in solutions">
+                <td>{{ x.name }}</td>
+                <td>{{ x.word }}</td>
+              </tr>
+            </table>
           </div>
         </div>
         <div class="row last-row">
