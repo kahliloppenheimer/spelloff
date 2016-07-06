@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var session = require('express-session');
 var path = require('path');
 var Typo = require('typo-js');
 var spellChecker = new Typo('en_US');
@@ -23,14 +24,27 @@ setInterval(function() {
   io.emit('update-game', getGameState());
 }, 1000 * WORD_SHUFFLE_TIME);
 
+var sessionMiddleware = session({
+  secret: 'SpelloffIsAmazingAndThatIsNotASecret!'
+});
+
+// Adapt express sessions for socket.io
+io.use(function(socket, next) {
+  sessionMiddleware(socket.request, socket.request.res, next);
+});
+
+app.use(sessionMiddleware);
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
+  if (req.session.user) {
+    res.sendFile(path.join(__dirname + '/index.html'));
+  } else {
+    res.sendFile(path.join(__dirname + '/login.html'));
+  }
 });
 
 io.on('connection', function (socket) {
-
   socket.on('start-game', function(data) {
     var startGameRes = {
       target: target,

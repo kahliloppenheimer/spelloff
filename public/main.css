@@ -57,6 +57,17 @@ ul {
     text-align: center;
 }
 
+.login {
+    background
+    text-align: center;
+}
+
+.vcenter {
+    text-align: center;
+    position: absolute;
+    top: 42%;
+}
+
 @media (min-width: 768px) {
     .name {
         text-align: left;
