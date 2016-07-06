@@ -10,6 +10,7 @@ app.controller("myCtrl", function($scope, $http) {
   });
 
   socket.on('update-game', function(data) {
+    $scope.errorText = '';
     $scope.solutions = data.solutions;
     $scope.scores = data.scores;
     $scope.target = data.target;

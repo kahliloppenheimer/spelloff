@@ -6,19 +6,18 @@ var path = require('path');
 var Typo = require('typo-js');
 var spellChecker = new Typo('en_US');
 var wordHelper = require('./lib/wordhelper.js');
-var randomWords = require('random-words');
-
-var target = randomWords();
-var solutions = [];
-var scores = {};
 
 // Number of seconds between word shuffling
 var WORD_SHUFFLE_TIME = 60;
+var MIN_TARGET_LENGTH = 8;
+
+var solutions = [];
+var scores = {};
+var target = wordHelper.generateTargetWord(MIN_TARGET_LENGTH);
 
 // Update word and announce winner
 setInterval(function() {
-  console.log("RESETTING");
-  target = randomWords();
+  target = wordHelper.generateTargetWord(MIN_TARGET_LENGTH);
   solutions = [];
   scores = {};
   io.emit('update-game', getGameState());
@@ -65,7 +64,7 @@ function getGameState() {
 }
 
 function score(attempt, target) {
-  return attempt.length;
+  return Math.floor(attempt.length * attempt.length / 4);
 }
 
 var port = process.env.PORT || 3000;
@@ -83,12 +82,16 @@ function isInvalid(name, attempt, target, solutions) {
 
   if (!attempt) {
     return "Please enter a word!";
+  } else if (attempt.length > target.length) {
+    return 'Your attempt is too long!';
   } else if (solutions.map(function(solution) { return solution.word }).indexOf(attempt) > -1) {
-    return attempt + " has already been attemped!";
+    return attempt + ' has already been attemped!';
   } else if (!wordHelper.isCorrectSolution(target, attempt)) {
     return attempt + ' cannot be spelled with the letters of ' + target;
-  } else if (!spellChecker.check(attempt)) {
+  } else if (!spellChecker.check(attempt) || attempt.length == 1) {
     return attempt + ' is not a word in the english dictionary!';
+  } else if (attempt == target) {
+    return target + ' cannot be used because it is the target word!';
   } else {
     return '';
   }
