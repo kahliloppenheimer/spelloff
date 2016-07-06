@@ -46,7 +46,7 @@ io.on('connection', function (socket) {
     var err = isInvalid(name, attempt, target, solutions);
     var attemptWordErr = {error: err};
     if (!err) {
-      solutions.unshift(name + ": " + attempt);
+      solutions.unshift({name: name, word: attempt});
       var points = score(attempt, target);
       scores[name] = scores[name] ? scores[name] + points : points;
       io.emit('update-game', getGameState());
@@ -75,6 +75,7 @@ server.listen(port, function() {
 
 // Returns errorText if not valid, empty error text if good
 function isInvalid(name, attempt, target, solutions) {
+  attempt = wordHelper.keepOnlyLowerAlpha(attempt);
   if (!name) {
     return "Please type in your name!";
   } else if (name.length < 3 || name.length > 16) {
@@ -83,7 +84,7 @@ function isInvalid(name, attempt, target, solutions) {
 
   if (!attempt) {
     return "Please enter a word!";
-  } else if (solutions.map(function(word) { return word.split(' ')[1] }).indexOf(attempt) > -1) {
+  } else if (solutions.map(function(solution) { return solution.word }).indexOf(attempt) > -1) {
     return attempt + " has already been attemped!";
   } else if (!wordHelper.isCorrectSolution(target, attempt)) {
     return attempt + ' cannot be spelled with the letters of ' + target;
