@@ -41,8 +41,6 @@ function findAllSubWords (word) {
   return recurFindAllSubWords(word, {});
 }
 
-console.log(findAllSubWords('dog'));
-
 function recurFindAllSubWords(word, memoized) {
   if (word.length < MIN_SOLUTION_WORD_LENGTH) {
     memoized[word] = [];
