@@ -4,8 +4,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var path = require('path');
 var Typo = require('typo-js');
-var spellChecker = new Typo('en_US');
-var wordHelper = require('./lib/wordhelper.js');
+var wordHelper = require('./wordhelper.js');
 
 // Number of seconds between word shuffling
 var WORD_SHUFFLE_TIME = 60;
@@ -88,7 +87,7 @@ function isInvalid(name, attempt, target, solutions) {
     return attempt + ' has already been attemped!';
   } else if (!wordHelper.isCorrectSolution(target, attempt)) {
     return attempt + ' cannot be spelled with the letters of ' + target;
-  } else if (!spellChecker.check(attempt) || attempt.length == 1) {
+  } else if (!wordHelper.isEnglishWord(attempt) || attempt.length == 1) {
     return attempt + ' is not a word in the english dictionary!';
   } else if (attempt == target) {
     return target + ' cannot be used because it is the target word!';
