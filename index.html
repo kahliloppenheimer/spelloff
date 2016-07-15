@@ -5,8 +5,8 @@
     <title>Spelloff</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
     <link rel="stylesheet" href="main.css">
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -28,30 +28,29 @@
             <div class="score">
               <ul>
                 <li ng-repeat="(key, value) in scores">
-                  {{key}}: {{value}}
+                  <span ng-class="{highlightedScore: key == name}">
+                    {{key}}: {{value}}
+                  </span>
                 </li>
               </ul>
             </div>
           </div>
-          <div class="col-xs-12 col-md-4 col-md-pull-4 target">
-            <h1>{{target}}</h1>
+          <div class="col-xs-12 col-md-4 col-md-pull-4">
+            <h1 class="target">
+              <span ng-class="{glow: glow[$index]}" ng-repeat="letter in target track by $index">{{letter}}&nbsp;</span>
+            </h1>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 col-md-offset-4 main-entry-container">
-            <input class="main-entry" ng-keypress="attemptWord($event)" ng-model="attemptedWord" autofocus>
+            <input size='' class="main-entry" ng-change="updateGlow()" ng-keypress="attemptWord($event)"  ng-model="attemptedWord" autofocus>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 col-md-offset-4">
-            <table class="table solutions">
-              <tr>
-                <th>Name</th>
-                <th>Word</th>
-              </tr>
+            <table class="table solutions table-borderless">
               <tr ng-repeat="x in solutions">
-                <td>{{ x.name }}</td>
-                <td>{{ x.word }}</td>
+                <td ng-class="{highlighted: x.name == name}" author={{x.name}}>{{ x.word }}</td>
               </tr>
             </table>
           </div>
