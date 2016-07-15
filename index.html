@@ -28,7 +28,7 @@
             <div class="score">
               <ul>
                 <li ng-repeat="(key, value) in scores">
-                  <span ng-class="{highlighted: key == name}">
+                  <span ng-class="{highlightedScore: key == name}">
                     {{key}}: {{value}}
                   </span>
                 </li>
@@ -36,12 +36,14 @@
             </div>
           </div>
           <div class="col-xs-12 col-md-4 col-md-pull-4">
-            <h1 class="target">{{target}}</h1>
+            <h1 class="target">
+              <span ng-class="{glow: glow[$index]}" ng-repeat="letter in target track by $index">{{letter}}&nbsp;</span>
+            </h1>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4 col-md-offset-4 main-entry-container">
-            <input size='' class="main-entry" ng-keypress="attemptWord($event)" ng-model="attemptedWord" autofocus>
+            <input size='' class="main-entry" ng-change="updateGlow()" ng-keypress="attemptWord($event)"  ng-model="attemptedWord" autofocus>
           </div>
         </div>
         <div class="row">

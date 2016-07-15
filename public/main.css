@@ -18,6 +18,7 @@ table {
 }
 
 .score {
+    font-size: 2em;
     text-align: center;
 }
 
@@ -27,7 +28,15 @@ table {
 }
 
 .highlighted {
-  background-color: yellow;
+  background-color: #C1FFC1;
+}
+
+.highlightedScore {
+  color: #137B13;
+}
+
+.glow {
+    color: red;
 }
 
 th {
@@ -88,4 +97,8 @@ ul {
         text-align: right;
         padding-top: 15px;
     }
+}
+
+span {
+  transition: color 0.35s ease;
 }
