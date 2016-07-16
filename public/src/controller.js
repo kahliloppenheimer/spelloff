@@ -12,6 +12,8 @@ app.controller("myCtrl", function($scope, $http) {
   });
 
   socket.on('update-game', function(data) {
+    $scope.attemptedWord = '';
+    $scope.glow = {};
     $scope.errorText = '';
     $scope.solutions = data.solutions;
     $scope.scores = data.scores;

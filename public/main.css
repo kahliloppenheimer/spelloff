@@ -15,6 +15,7 @@ table {
 .target {
     text-align: center;
     font-size: 4em;
+    letter-spacing: .3em;
 }
 
 .score {
