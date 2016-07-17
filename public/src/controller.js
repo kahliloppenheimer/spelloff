@@ -12,7 +12,7 @@ app.controller("myCtrl", function($scope, $http) {
   });
 
   socket.on('update-game', function(data) {
-    $scope.attemptedWord = '';
+    $scope.submission = '';
     $scope.glow = {};
     $scope.errorText = '';
     $scope.solutions = data.solutions;
@@ -28,8 +28,8 @@ app.controller("myCtrl", function($scope, $http) {
 
   $scope.attemptWord = function(keyEvent) {
     // If letter key, reject letters you cant use
-    if (isLetterKey(keyEvent) && $scope.attemptedWord) {
-      var attemptLetterCount = getLetterCount($scope.attemptedWord);
+    if (isLetterKey(keyEvent) && $scope.submission) {
+      var attemptLetterCount = getLetterCount($scope.submission);
       var targetLetterCount = getLetterCount($scope.target);
       var typed = keyEvent.key;
       if (!targetLetterCount[typed] || attemptLetterCount[typed] + 1 > targetLetterCount[typed]) {
@@ -43,23 +43,26 @@ app.controller("myCtrl", function($scope, $http) {
 
       socket.emit('attempt-word', {
         name: $scope.name,
-        attempt: $scope.attemptedWord
+        attempt: $scope.submission
       });
 
-      $scope.attemptedWord = '';
+      $scope.submission = '';
       $scope.updateGlow();
     }
   }
 
   $scope.updateGlow = function() {
     $scope.glow = {};
-    var letterCount = getLetterCount($scope.attemptedWord);
-    for (var i = 0; i < $scope.target.length; ++i) {
-      var letter = $scope.target[i];
-      if (letterCount[letter]) {
-        $scope.glow[i] = true;
-        letterCount[letter]--;
+    // find location of first letter from attempt
+    var lastHighlightIdx = -1;
+    for (var i = 0; i < $scope.submission.length; ++i) {
+      var letter = $scope.submission[i];
+      var lastHighlightIdx = $scope.target.indexOf(letter, lastHighlightIdx + 1);
+      // If it can't be found to the right of the last letter, then wrap around
+      if (lastHighlightIdx == -1) {
+        lastHighlightIdx = $scope.target.indexOf(letter, 0);
       }
+      $scope.glow[lastHighlightIdx] = true;
     }
   }
 });
