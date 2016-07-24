@@ -8,7 +8,7 @@ var spellChecker = new Typo('en_US');
 var wordHelper = require('./lib/wordhelper.js');
 
 // Number of seconds between word shuffling
-var WORD_SHUFFLE_TIME = 10;
+var WORD_SHUFFLE_TIME = 60;
 var MIN_TARGET_LENGTH = 8;
 
 var solutions = [];
